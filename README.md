@@ -1,4 +1,4 @@
-# hihutex-memory-class
+# HihutEx Memory Class
 Small, performant and easy to understand external memory management class.
 
 ### Features:
