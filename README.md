@@ -15,7 +15,7 @@ The core logic and philosophy remains the same (calling `ntdll.dll`), but the im
 | **Language** | C# 7.3 | **C# 9.0+** | Access to new C# type aliases - `nint` instead of `IntPtr` and `nuint` instead of `UIntPtr`. |
 | **Runtime** | .NET Framework | **.NET 5.0+** | Required for `NativeLibrary` class.|
 | **Invocation** | `[DllImport]` | **`delegate*`** | Function pointers allow us to bypass standard P/Invoke stub created by CLR, removing overhead.|
-| **Garbage Collection** | GC Transition | **`[SuppressGCTransition]`** | Every time we call unmanaged code, C# switches its GC Mode from Cooperative to Preemptive, adding overhead. This attribute suppresses this transition.|
+| **Garbage Collection** | GC Transition | **`[SuppressGCTransition]`** | Every time we call unmanaged code, C# switches its GC Mode from Cooperative to Preemptive, adding overhead. The `SuppressGCTransition` attribute suppresses this transition.<br><br>It’s fine to use this with our read/write calls because they allocate no managed memory, perform a single short, non-blocking syscall, and return immediately (unless the target process’s memory address is paged out - then you can expect a brief pause).|
 | **Memory** | `byte[]` allocation |  **`void*`** | Zero-copy stack pointers. We no longer create new object on each read.|
 
 ## Example usage
